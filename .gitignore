@@ -1,24 +1,29 @@
+# Help files
 HELP.md
-.gradle
+
+# Gradle build
+.gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
+
+# Exclude all build directories except inside src
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### STS ###
-.apt_generated
+# STS (Spring Tool Suite)
+.apt_generated/
 .classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
-.sts4-cache
+.sts4-cache/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
-### IntelliJ IDEA ###
-.idea
+# IntelliJ IDEA
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -26,12 +31,12 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+# NetBeans
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
 
-### VS Code ###
+# Visual Studio Code
 .vscode/
