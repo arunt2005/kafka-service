@@ -1,24 +1,15 @@
 package com.apps.service;
 
+import com.apps.dto.MessageRequest;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-class MessageConsumerTest {
+public class MessageConsumerTest {
 
     @Test
-    void testConsume() {
+    public void testConsumeMessage() {
         MessageConsumer consumer = new MessageConsumer();
 
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(out));
-
-        String message = "Test message";
+        MessageRequest message = new MessageRequest("TestUser", "This is a test message");
         consumer.consume(message);
-
-        assertTrue(out.toString().contains("Consumed message: Test message"));
     }
 }

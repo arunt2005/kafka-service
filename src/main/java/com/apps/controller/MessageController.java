@@ -1,5 +1,6 @@
 package com.apps.controller;
 
+import com.apps.dto.MessageRequest;
 import com.apps.service.MessageProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -8,12 +9,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/messages")
 public class MessageController {
 
+    private final MessageProducer messageProducer;
+
     @Autowired
-    private MessageProducer messageProducer;
+    public MessageController(MessageProducer messageProducer) {
+        this.messageProducer = messageProducer;
+    }
 
     @PostMapping
-    public String publishMessage(@RequestParam String message) {
-        messageProducer.sendMessage(message);
+    public String sendMessage(@RequestBody MessageRequest request) {
+        messageProducer.sendMessage(request);
         return "Message sent to Kafka topic!";
     }
 }

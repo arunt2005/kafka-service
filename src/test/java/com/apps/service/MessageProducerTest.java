@@ -1,18 +1,21 @@
 package com.apps.service;
 
+import com.apps.dto.MessageRequest;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.junit.jupiter.api.Test;
 import org.springframework.kafka.core.KafkaTemplate;
 
 import static org.mockito.Mockito.*;
 
-class MessageProducerTest {
+public class MessageProducerTest {
 
     @Test
-    void testSendMessage() {
-        KafkaTemplate<String, String> kafkaTemplate = mock(KafkaTemplate.class);
+    public void testSendMessage() {
+        KafkaTemplate<String, MessageRequest> kafkaTemplate = mock(KafkaTemplate.class);
         MessageProducer producer = new MessageProducer(kafkaTemplate);
 
-        String testMessage = "Hello Kafka!";
+        MessageRequest testMessage = new MessageRequest("TestUser", "Hello from test");
+
         producer.sendMessage(testMessage);
 
         verify(kafkaTemplate, times(1)).send("my-topic", testMessage);
