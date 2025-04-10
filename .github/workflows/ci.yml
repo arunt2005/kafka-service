@@ -9,16 +9,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     services:
       zookeeper:
         image: bitnami/zookeeper:latest
         ports:
           - 2181:2181
-        options: >-
-          --health-cmd "echo ruok | nc localhost 2181"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        env:
+          ALLOW_ANONYMOUS_LOGIN: yes
 
       kafka:
         image: bitnami/kafka:latest
@@ -28,14 +26,8 @@ jobs:
           KAFKA_BROKER_ID: 1
           KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
           ALLOW_PLAINTEXT_LISTENER: yes
-          KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
           KAFKA_CFG_LISTENERS: PLAINTEXT://:9092
           KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-        options: >-
-          --health-cmd "kafka-topics.sh --bootstrap-server localhost:9092 --list"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 10
 
     steps:
       - name: Checkout code
@@ -59,6 +51,11 @@ jobs:
 
       - name: Grant execute permission for Gradle wrapper
         run: chmod +x gradlew
+
+      - name: Wait for Kafka to be ready
+        run: |
+          echo "Waiting for Kafka to be ready..."
+          sleep 20
 
       - name: Build and test with Gradle
         run: ./gradlew clean build
